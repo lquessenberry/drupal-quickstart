@@ -8,7 +8,7 @@
  * since that's what we really want, with a little
  * memcache added.
  */
-function pagodabox_quickstart_install() {
+function pagodaqs_install() {
   include_once DRUPAL_ROOT . '/profiles/standard/standard.install';
   standard_install();
 }

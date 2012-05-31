@@ -1,6 +1,5 @@
-name = Standard
-description = Install with commonly used features pre-configured.
-version = VERSION
+name = Pagodabox Quickstart
+description = A Drupal installation for Pagodabox. Includes preconfigured memcache.
 core = 7.x
 dependencies[] = block
 dependencies[] = color
@@ -23,9 +22,4 @@ dependencies[] = overlay
 dependencies[] = field_ui
 dependencies[] = file
 dependencies[] = rdf
-
-; Information added by drupal.org packaging script on 2012-05-02
-version = "7.14"
-project = "drupal"
-datestamp = "1335997555"
-
+dependencies[] = memcache
