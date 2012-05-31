@@ -1,0 +1,10 @@
+# For pagodabox we don't ignore the settings file, because it
+# uses environment settings for database credentials.
+#sites/*/settings*.php
+
+# Ignore paths that contain user-generated content.
+# For pagodabox we move tmp and private to directories
+# outside our docroot.
+drupal/sites/*/private
+tmp
+private

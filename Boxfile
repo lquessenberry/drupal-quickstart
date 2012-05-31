@@ -1,0 +1,34 @@
+--- 
+
+global:
+  env:
+    - PLATFORM: PAGODABOX
+
+db1: 
+  name: drupal-qs-db
+  type: mysql
+
+cache1:
+  name: drupal-qs-cache
+  type: memcached
+
+web1: 
+  document_root: /drupal
+  name: drupal-qs-web
+  shared_writable_dirs: 
+    - drupal/sites/default/files
+    - tmp
+    - private
+  php_version: 5.3.10
+  php_extensions:
+    - hash
+    - json
+    - pdo
+    - apc
+    - mysqli
+    - gd
+    - xml
+    - pdo_mysql
+    - mcrypt
+    - mbstring
+    - memcached
