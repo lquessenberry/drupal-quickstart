@@ -23,5 +23,5 @@ dependencies[] = field_ui
 dependencies[] = file
 dependencies[] = rdf
 dependencies[] = memcache
-dependencies[] = features
+dependencies[] = pagodabox_quickstart_files
 dependencies[] = backup_migrate
