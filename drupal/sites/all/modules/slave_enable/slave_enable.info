@@ -1,0 +1,4 @@
+name = Slave Enable
+description = Forces SELECT queries into slavery.
+core = 7.x
+files[] = slave_enable.inc

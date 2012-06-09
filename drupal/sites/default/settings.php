@@ -203,7 +203,7 @@
 
 /**
  * The Magic Of Pagodabox: We can use environmental variables
- * to set up the database credentials for our database.
+ * to glean the database credentials for our database.
  * The local dev credentials follow this code block.
  * The down-side of this strategy is: Memcache module will
  * give us an error on the local installation.
@@ -228,7 +228,10 @@ if (isset($_SERVER['PLATFORM']) && $_SERVER['PLATFORM'] == 'PAGODABOX') {
     $conf['cache_backends'][] = 'sites/all/modules/memcache/memcache.inc';
     $conf['cache_default_class'] = 'MemCacheDrupal';
     $conf['cache_class_cache_form'] = 'DrupalDatabaseCache';
-    $conf['memcache_servers'][] = array('tunnel.pagodabox.com:11211' => 'lea-cache');
+    $cacheHost = $_SERVER['CACHE1_HOST'];
+    $cachePort = $_SERVER['CACHE1_PORT'];
+    $cacheName = $_SERVER['CACHE1_NAME'];
+    $conf['memcache_servers'][] = array("$cacheHost:$cachePort" => $cacheName);
 }
 
 // This is your local dev database. Obviously you'll need to change these
