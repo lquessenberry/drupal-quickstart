@@ -1,15 +1,19 @@
-This is the Quickstart distribution of Drupal 7 for Pagodabox.com.
+Drupal Quickstart
+=================
 
-It is authored by Paul Mitchum, but of course it's developed
-by a team of thousands, maybe hundreds of thousands,
-or dare we say it, millions?
+A Drupal 7 Quickstart installation for Pagodabox.com.
 
-Drupal is a trademark owned by Dries Buytaert, who originally
-developed Drupal.
+Pagodabox.com is a platform-as-a-service provider, with very flexible cloud deployment.
 
-Drupal is available under a GNU public license. Consult drupal.org
-for definitive information on licensing.
+Pagodabox offers memcached as one of its deployment options, which is good, because everyone loves a cache.
 
-This distribution includes many contributed modules, and those
-modules are also available under GPL, or they won't be included
-in this distribution.
+Drupal, it turns out, can use memcached pretty effectively, so this quickstart sets that all up for you.
+
+Furthermore, Pagodabox's stock Drupal quickstart is not really all that good... Either way you're going to be adding commonly-used contrib modules, so you might as well not use the quickstart.
+
+So: Here is a Drupal distribution for Pagodabox with many common modules already present. You can fire up Drupal, get some work done, and then pull down the repository.
+
+Also included is the Backup & Migrate module, which is configured to store daily and weekly backups in your shared file system. This makes it relatively painless to move your database back and forth between development and staging or deployment on Pagodabox.
+
+This Quickstart distribution is available as a paid single-click installation on Pagodabox. You can also get it for free on github or drupal.org. If you pay for it (it's cheap), I get a little kick back on it. Either way, contribution to the issue queue on drupal.org is appreciated if you find any glaring errors or have any suggestions.
+
