@@ -228,7 +228,7 @@ if (isset($_SERVER['PLATFORM']) && $_SERVER['PLATFORM'] == 'PAGODABOX') {
     $conf['cache_backends'][] = 'sites/all/modules/memcache/memcache.inc';
     $conf['cache_default_class'] = 'MemCacheDrupal';
     $conf['cache_class_cache_form'] = 'DrupalDatabaseCache';
-    $conf['memcache_servers'][] = array('tunnel.pagodabox.com:11211' => 'lea-cache');
+    $conf['memcache_servers'][] = array('tunnel.pagodabox.com:11211' => 'drupal-qs-cache');
 }
 
 // This is your local dev database. Obviously you'll need to change these
