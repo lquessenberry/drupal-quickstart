@@ -225,7 +225,7 @@ if (isset($_SERVER['PLATFORM']) && $_SERVER['PLATFORM'] == 'PAGODABOX') {
         ),
       ),
     );
-    // Now it's time for all the slave databases.
+/*    // Now it's time for all the slave databases.
     $databases['default']['slave'] = array();
     $databases['default']['slave'][] =
         array (
@@ -236,7 +236,7 @@ if (isset($_SERVER['PLATFORM']) && $_SERVER['PLATFORM'] == 'PAGODABOX') {
           'port' => $_SERVER['DB2_PORT'],
           'driver' => 'mysql',
           'prefix' => '',
-    );
+    );*/
 
 /*    $i = 2;
     $db = 'DB' . $i . '_';
