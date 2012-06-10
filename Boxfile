@@ -4,8 +4,12 @@ global:
   env:
     - PLATFORM: PAGODABOX
 
-db1: 
-  name: drupal-qs-db
+db1:
+  name: drupal-qs-db1
+  type: mysql
+
+db2:
+  name: drupal-qs-db2
   type: mysql
 
 cache1:

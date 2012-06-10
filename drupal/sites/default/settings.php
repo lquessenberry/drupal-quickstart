@@ -209,6 +209,7 @@
  * give us an error on the local installation.
  */
 if (isset($_SERVER['PLATFORM']) && $_SERVER['PLATFORM'] == 'PAGODABOX') {
+    // First we'll set up the master database.
     $databases = array (
       'default' => 
       array (
@@ -224,6 +225,21 @@ if (isset($_SERVER['PLATFORM']) && $_SERVER['PLATFORM'] == 'PAGODABOX') {
         ),
       ),
     );
+    // Now it's time for all the slave databases.
+    $i = 2;
+    $db = 'DB' . $i . '_';
+    while(isset($_SERVER[$db . 'NAME'])) {
+      $databases['default']['slave'][] = array (
+        'database' => $_SERVER[$db . 'NAME'],
+        'username' => $_SERVER[$db . 'USER'],
+        'password' => $_SERVER[$db . 'PASS'],
+        'host' => $_SERVER[$db . 'HOST'],
+        'port' => $_SERVER[$db . 'PORT'],
+        'driver' => 'mysql',
+        'prefix' => '',
+      );
+      $db = 'DB' . ++$i . '_';
+    }
     // memcached stuff.....
     $conf['cache_backends'][] = 'sites/all/modules/memcache/memcache.inc';
     $conf['cache_default_class'] = 'MemCacheDrupal';
