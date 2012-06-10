@@ -225,43 +225,16 @@ if (isset($_SERVER['PLATFORM']) && $_SERVER['PLATFORM'] == 'PAGODABOX') {
         ),
       ),
     );
-/*    // Now it's time for all the slave databases.
-    $databases['default']['slave'] = array();
-    $databases['default']['slave'][] =
-        array (
-          'database' => $_SERVER['DB2_NAME'],
-          'username' => $_SERVER['DB2_USER'],
-          'password' => $_SERVER['DB2_PASS'],
-          'host' => $_SERVER['DB2_HOST'],
-          'port' => $_SERVER['DB2_PORT'],
-          'driver' => 'mysql',
-          'prefix' => '',
-    );*/
-
-/*    $i = 2;
-    $db = 'DB' . $i . '_';
-    while(isset($_SERVER[$db . 'NAME'])) {
-      $databases['default']['slave'][] = array (
-        'database' => $_SERVER[$db . 'NAME'],
-        'username' => $_SERVER[$db . 'USER'],
-        'password' => $_SERVER[$db . 'PASS'],
-        'host' => $_SERVER[$db . 'HOST'],
-        'port' => $_SERVER[$db . 'PORT'],
-        'driver' => 'mysql',
-        'prefix' => '',
-      );
-      $db = 'DB' . ++$i . '_';
-    }*/
     // memcached stuff.....
     $conf['cache_backends'][] = 'sites/all/modules/memcache/memcache.inc';
     $conf['cache_default_class'] = 'MemCacheDrupal';
     $conf['cache_class_cache_form'] = 'DrupalDatabaseCache';
-    $conf['memcache_servers'][] = array('tunnel.pagodabox.com:11211' => 'wrong-name');
+    $conf['memcache_servers'][] = array('tunnel.pagodabox.com:11211' => 'drupal-qs-cache');
 }
 
 // This is your local dev database. Obviously you'll need to change these
 // to fit your needs. This happens to be my (completely typical) setup
-// for MAMP.
+// for MAMP. http://mamp.info/en/index.html
 else {
     $databases = array (
       'default' => 
