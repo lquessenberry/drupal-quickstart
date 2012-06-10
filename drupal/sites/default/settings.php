@@ -226,7 +226,19 @@ if (isset($_SERVER['PLATFORM']) && $_SERVER['PLATFORM'] == 'PAGODABOX') {
       ),
     );
     // Now it's time for all the slave databases.
-    $i = 2;
+    $databases['default']['slave'] = array();
+    $databases['default']['slave'][] =
+        array (
+          'database' => $_SERVER['DB2_NAME'],
+          'username' => $_SERVER['DB2_USER'],
+          'password' => $_SERVER['DB2_PASS'],
+          'host' => $_SERVER['DB2_HOST'],
+          'port' => $_SERVER['DB2_PORT'],
+          'driver' => 'mysql',
+          'prefix' => '',
+    );
+
+/*    $i = 2;
     $db = 'DB' . $i . '_';
     while(isset($_SERVER[$db . 'NAME'])) {
       $databases['default']['slave'][] = array (
@@ -239,7 +251,7 @@ if (isset($_SERVER['PLATFORM']) && $_SERVER['PLATFORM'] == 'PAGODABOX') {
         'prefix' => '',
       );
       $db = 'DB' . ++$i . '_';
-    }
+    }*/
     // memcached stuff.....
     $conf['cache_backends'][] = 'sites/all/modules/memcache/memcache.inc';
     $conf['cache_default_class'] = 'MemCacheDrupal';
