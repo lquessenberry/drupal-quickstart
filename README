@@ -15,7 +15,7 @@ So: Here is a Drupal distribution for Pagodabox with many common modules already
 
 Also included is the Backup & Migrate module, which is configured to store daily and weekly backups in your shared file system. This makes it relatively painless to move your database back and forth between development and staging or deployment on Pagodabox.
 
-This Quickstart distribution is available as a paid single-click installation on Pagodabox. You can also get it for free on github. If you pay for it (it's cheap), I get a little kick back on it. Either way, contribution to the issue queue on github is appreciated if you find any glaring errors or have any suggestions.
+This Quickstart distribution is available as a free single-click installation on Pagodabox. You can also get it for free on github. Either way, contribution to the issue queue on github is appreciated if you find any glaring errors or have any suggestions.
 
 https://github.com/paul-m/drupal-quickstart
 
