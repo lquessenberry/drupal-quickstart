@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the Pagodabox Quickstart Files feature.
- */
-
-include_once 'pagodabox_quickstart_files.features.inc';
