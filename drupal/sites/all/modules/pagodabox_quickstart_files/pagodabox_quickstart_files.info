@@ -1,0 +1,14 @@
+name = Pagodabox Quickstart Files
+description = Sets private and public file paths. This should really be in the install profile.
+core = 7.x
+package = Pagodabox
+version = 7.x-0.1
+project = pagodabox_quickstart_files
+dependencies[] = ctools
+dependencies[] = strongarm
+features[ctools][] = strongarm:strongarm:1
+features[features_api][] = api:1
+features[variable][] = file_default_scheme
+features[variable][] = file_private_path
+features[variable][] = file_public_path
+features[variable][] = file_temporary_path

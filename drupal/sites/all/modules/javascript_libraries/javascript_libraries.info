@@ -4,7 +4,7 @@ core = 7.x
 
 dependencies[] = file
 
-files[] = javascript_libraries.test
+files[] = tests/javascript_libraries.test
 
 configure = admin/config/system/javascript-libraries
 
@@ -12,9 +12,9 @@ configure = admin/config/system/javascript-libraries
 version = "7.x-1.x"
 
 
-; Information added by drupal.org packaging script on 2012-03-08
-version = "7.x-1.0-rc6"
+; Information added by drupal.org packaging script on 2012-05-24
+version = "7.x-1.2"
 core = "7.x"
 project = "javascript_libraries"
-datestamp = "1331244345"
+datestamp = "1337869256"
 

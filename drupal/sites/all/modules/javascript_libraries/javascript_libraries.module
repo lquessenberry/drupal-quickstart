@@ -299,6 +299,8 @@ function javascript_libraries_cache($uri, $sync_cached_file = FALSE) {
 
   $file_destination = $path . '/js_' . drupal_hash_base64($uri) . '.js';
   $file_exists = file_exists($file_destination);
+  // If the file exists, we can assume success.
+  $success = $file_exists;
 
   if (!$file_exists || $sync_cached_file) {
     // Download the library.
@@ -309,23 +311,53 @@ function javascript_libraries_cache($uri, $sync_cached_file = FALSE) {
       return FALSE;
     }
     if ($file_exists) {
-      // Save updated tracking code file to disk.
-      file_unmanaged_save_data($result->data, $file_destination, FILE_EXISTS_REPLACE);
-      watchdog('javascript_libraries', 'Locally cached javascript library has been updated.', array(), WATCHDOG_INFO);
-      drupal_clear_js_cache();
+      // Only do a (potentially somewhat slow/expensive) file write if the
+      // content changed.
+      $current_contents = file_get_contents($file_destination);
+      if ($result->data != $current_contents) {
+        // Save updated javascript file to disk.
+        $success = javascript_libraries_file_unmanaged_save_data($result->data, $file_destination);
+        watchdog('javascript_libraries', 'Locally cached javascript library has been updated.', array(), WATCHDOG_INFO);
+        drupal_clear_js_cache();
+      }
     }
     elseif (file_prepare_directory($path, FILE_CREATE_DIRECTORY)) {
       // There is no need to flush JS here as core refreshes JS caches
       // automatically if new files are added.
-      file_unmanaged_save_data($result->data, $file_destination, FILE_EXISTS_REPLACE);
+      $success = javascript_libraries_file_unmanaged_save_data($result->data, $file_destination);
       watchdog('javascript_libraries', 'Locally cached javascript library has been saved.', array(), WATCHDOG_INFO);
     }
-    else {
-      return FALSE;
-    }
   }
-  // Return the local JS file path.
-  return $file_destination;
+  if ($success) {
+    // Return the local JS file path.
+    return $file_destination;
+  }
+  return FALSE;
+}
+
+/**
+ * More atomic replacement for file_unmanaged_save_data().
+ *
+ * Aims to minimize the time in which a destination file is partially complete.
+ *
+ * file_unmanaged_save_data performs a file_copy from wherever the temporary directory
+ * is to wherever the destination directory is.  These can be on different filesystems
+ * and if one of the 2 is slow, results in the end destination file being in an
+ * inconsistent state for some time (an uncomfortably large number of millisec).
+ * When core aggregation attempts to access the file during this time, it can pull
+ * and cache a corrupt file. We need to move the file into a temporary location
+ * on the same filesystem and move instead of copying the file to reduce the
+ * duration of this inconsistency.
+ *
+ * Note: this function can currently only be used where $replace is FILE_EXISTS_REPLACE.
+ */
+function javascript_libraries_file_unmanaged_save_data($data, $destination) {
+  // Create a temporary file and then move it in place.
+  $destination_tmp = $destination . '-tmp-' . uniqid(getmypid(), TRUE);
+  if (file_unmanaged_save_data($data, $destination_tmp, FILE_EXISTS_REPLACE)) {
+    return @rename($destination_tmp, $destination);
+  }
+  return FALSE;
 }
 
 /**

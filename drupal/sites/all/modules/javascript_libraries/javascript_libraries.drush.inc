@@ -43,12 +43,12 @@ function drush_javascript_libraries_jslib_switch_url($current_url = NULL, $new_u
   }
 
   // Replace all occurrences of the old URL with the new one.
-  $changed = FALSE;
+  $changed = array();
   $libraries = variable_get('javascript_libraries_custom_libraries', array());
   foreach ($libraries as &$library) {
     if ($library['type'] == 'external' && $library['uri'] == $current_url && $library['uri'] != $new_url) {
       $library['uri'] = $new_url;
-      $changed = TRUE;
+      $changed[] = $library;
     }
   }
 
@@ -56,7 +56,11 @@ function drush_javascript_libraries_jslib_switch_url($current_url = NULL, $new_u
   if ($changed) {
     drush_op('variable_set', 'javascript_libraries_custom_libraries', $libraries);
     javascript_libraries_flush_caches();
-    drush_log(dt('External library URL was updated from @old to @new.', array('@old' => $current_url, '@new' => $new_url)), 'success');
+    $info = array();
+    foreach ($changed as $lib) {
+      $info[] = "{$lib['id']} : {$lib['name']} : {$lib['scope']}";
+    }
+    drush_log(dt('External library URL was updated from @old to @new for @count URI(s): @info', array('@old' => $current_url, '@new' => $new_url, '@count' => count($changed), '@info' => implode(' | ', $info))), 'success');
   }
   else {
     drush_log(dt('There are no existing libraries with the URL @old.', array('@old' => $current_url)), 'warning');
