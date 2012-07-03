@@ -24,3 +24,4 @@ dependencies[] = file
 dependencies[] = rdf
 dependencies[] = memcache
 dependencies[] = backup_migrate
+dependencies[] = backup_migrate_files
