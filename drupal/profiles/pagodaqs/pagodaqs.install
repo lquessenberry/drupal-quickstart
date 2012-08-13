@@ -1,0 +1,18 @@
+<?php
+/**
+ * Implement hook_install().
+ *
+ * Perform actions to set up the site for this profile.
+ *
+ * For now we just punt to the standard install profile
+ * since that's what we really want, with a little
+ * memcache added.
+ */
+function pagodaqs_install() {
+  include_once DRUPAL_ROOT . '/profiles/standard/standard.install';
+  standard_install();
+  // We're going to force the file systems to live in these directories:
+  variable_set('file_private_path', '../private');
+  variable_set('file_public_path', 'sites/default/files');
+  variable_set('file_temporary_path', '../tmp');
+}
