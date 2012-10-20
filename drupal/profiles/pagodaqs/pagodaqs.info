@@ -22,5 +22,5 @@ dependencies[] = overlay
 dependencies[] = field_ui
 dependencies[] = file
 dependencies[] = rdf
-dependencies[] = memcache
+; dependencies[] = memcache
 dependencies[] = backup_migrate
