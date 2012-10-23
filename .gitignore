@@ -5,6 +5,6 @@
 # Ignore paths that contain user-generated content.
 # For pagodabox we move tmp and private to directories
 # outside our docroot.
-drupal/sites/*/private
+drupal/sites/*/files
 tmp
 private
