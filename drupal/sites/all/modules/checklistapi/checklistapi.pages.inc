@@ -53,12 +53,26 @@ function checklistapi_checklist_clear_confirm_submit($form, &$form_state) {
  */
 function checklistapi_checklist_form($form, &$form_state, $id) {
   $form['#checklist'] = $checklist = checklistapi_checklist_load($id);
+
+  $form['progress_bar'] = array(
+    '#type' => 'markup',
+    '#markup' => theme('checklistapi_progress_bar', array(
+      'message' => ($checklist->hasSavedProgress()) ? t('Last updated @date by !user', array(
+        '@date' => $checklist->getLastUpdatedDate(),
+        '!user' => $checklist->getLastUpdatedUser(),
+      )) : '&nbsp;',
+      'number_complete' => $checklist->getNumberCompleted(),
+      'number_of_items' => $checklist->getNumberOfItems(),
+      'percent_complete' => round($checklist->getPercentComplete()),
+    )),
+  );
   if (checklistapi_compact_mode()) {
     $form['#attributes']['class'] = array('compact-mode');
   }
   $form['compact_mode_link'] = array(
     '#markup' => theme('checklistapi_compact_link'),
   );
+
   $form['checklistapi'] = array(
     '#attached' => array(
       'css' => array(drupal_get_path('module', 'checklistapi') . '/checklistapi.css'),
@@ -67,6 +81,7 @@ function checklistapi_checklist_form($form, &$form_state, $id) {
     '#tree' => TRUE,
     '#type' => 'vertical_tabs',
   );
+
   // Loop through groups.
   $num_autochecked_items = 0;
   $groups = $checklist->items;
@@ -79,6 +94,7 @@ function checklistapi_checklist_form($form, &$form_state, $id) {
     if (!empty($group['#description'])) {
       $form['checklistapi'][$group_key]['#description'] = filter_xss_admin($group['#description']);
     }
+
     // Loop through items.
     foreach (element_children($group) as $item_key) {
       $item = &$group[$item_key];
@@ -112,21 +128,8 @@ function checklistapi_checklist_form($form, &$form_state, $id) {
       $links = array();
       foreach (element_children($item) as $link_key) {
         $link = &$item[$link_key];
-        $context = (!empty($link['#context'])) ? $link['#context'] : CHECKLISTAPI_LINK_CONTEXT_ANY;
-        $show_link = FALSE;
-        if ($context == CHECKLISTAPI_LINK_CONTEXT_ANY) {
-          $show_link = TRUE;
-        }
-        elseif ($saved_item && $context == CHECKLISTAPI_LINK_CONTEXT_ITEM_CHECKED) {
-          $show_link = TRUE;
-        }
-        elseif (!$saved_item && $context == CHECKLISTAPI_LINK_CONTEXT_ITEM_UNCHECKED) {
-          $show_link = TRUE;
-        }
-        if ($show_link) {
-          $options = (!empty($link['#options']) && is_array($link['#options'])) ? $link['#options'] : array();
-          $links[] = l($link['#text'], $link['#path'], $options);
-        }
+        $options = (!empty($link['#options']) && is_array($link['#options'])) ? $link['#options'] : array();
+        $links[] = l($link['#text'], $link['#path'], $options);
       }
       if (count($links)) {
         $description .= '<div class="links">' . implode(' | ', $links) . '</div>';
@@ -142,6 +145,7 @@ function checklistapi_checklist_form($form, &$form_state, $id) {
       );
     }
   }
+
   $form['actions'] = array(
     '#access' => $user_has_edit_access,
     '#type' => 'actions',
@@ -226,11 +230,11 @@ function theme_checklistapi_compact_link() {
   $output = '<div class="compact-link">';
   if (checklistapi_compact_mode()) {
     $output .= l(
-      t('Show descriptions'),
-      request_path() . '/compact/off',
+      t('Show item descriptions'),
+      current_path() . '/compact/off',
       array(
         'attributes' => array(
-          'title' => t('Expand layout to include descriptions.'),
+          'title' => t('Expand layout to include item descriptions.'),
         ),
         'query' => drupal_get_destination(),
       )
@@ -238,11 +242,11 @@ function theme_checklistapi_compact_link() {
   }
   else {
     $output .= l(
-      t('Hide descriptions'),
-      request_path() . '/compact/on',
+      t('Hide item descriptions'),
+      current_path() . '/compact/on',
       array(
         'attributes' => array(
-          'title' => t('Compress layout by hiding descriptions.'),
+          'title' => t('Compress layout by hiding item descriptions.'),
         ),
         'query' => drupal_get_destination(),
       )
