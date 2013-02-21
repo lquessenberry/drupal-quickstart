@@ -1,8 +1,6 @@
 <div id="wrap">
     <div class="container">
         
-        <div class="resize"></div>
-        
         <!-- #header -->
         <div id="header" class="sixteen columns clearfix">
             <div class="inner">
@@ -40,18 +38,15 @@
             <?php if ($page['header']) : ?>
                 <?php print drupal_render($page['header']); ?>
                 <?php else : ?>
-                <?php print theme('links__system_main_menu', array(
-                'links' => $main_menu,
-                'attributes' => array(
-                    'id' => 'main-menu-links',
-                    'class' => array('menu', 'clearfix'),
-                ),
-                'heading' => array(
-                    'text' => t('Main menu'),
-                    'level' => 'h2',
-                    'class' => array('element-invisible'),
-                ),
-                )); ?>
+                <?php 
+				if (module_exists('i18n_menu')) {
+				$main_menu_tree = i18n_menu_translated_tree(variable_get('menu_main_links_source', 'main-menu'));
+				} else { 
+				$main_menu_tree = menu_tree(variable_get('menu_main_links_source', 'main-menu')); 
+				} ?>
+				<div class="content">
+				<?php print drupal_render($main_menu_tree); ?>
+                </div>
             <?php endif; ?>
             </div>
             
@@ -75,7 +70,7 @@
             
             <div id="main">
             
-                <?php if ($page['highlighted']): ?><div id="highlighted"><?php print render($page['highlighted']); ?></div><?php endif; ?>
+                <?php if ($page['highlighted']): ?><div id="highlighted" class="clearfix"><?php print render($page['highlighted']); ?></div><?php endif; ?>
                 
                 <?php print render($title_prefix); ?>
                 
@@ -161,7 +156,11 @@
             
             <div class="clear"></div>
             
-            <div id="credits">2012 Your Site - This is a Free Drupal Theme<br/>
+            <div id="credits">
+			<?php print(date('Y') . ' ');?>
+            <?php if (!empty($site_name)):?>
+            <?php print $site_name;?>- This is a Free Drupal Theme<br/>
+            <?php endif;?>
             Ported to Drupal for the Open Source Community by <a href="http://www.drupalizing.com" target="_blank">Drupalizing</a>, a Project of <a href="http://www.morethanthemes.com" target="_blank">More than (just) Themes</a>. Original design by <a href="http://www.simplethemes.com/" target="_blank">Simple Themes</a>.
             </div>
         
